@@ -1,4 +1,4 @@
-import DFS
+import DFS, BFS
 
 def main():
     graph = {
@@ -15,12 +15,21 @@ def main():
         "Luxembourg": ["Liege", "Namur"]
     }
 
-    print("Using DFS: ")
-    dfs = DFS.DFS(graph)
-    print(f"The answer without limit is: {dfs.get_answer()}\n")
+    limit = 3
 
-    dfs = DFS.DFS(graph, 2)
-    print(f"The answer with limit 2 is: {dfs.get_answer()}\n\n")
+    print("Using DFS:")
+    dfs = DFS.DFS(graph)
+    print(f"The answer without limit is: {dfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n")
+
+    dfs = DFS.DFS(graph, limit)
+    print(f"The answer with limit {limit} is: {dfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n\n")
+
+    print("Using BFS:")
+    bfs = BFS.BFS(graph)
+    print(f"The answer without limit is: {bfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n")
+
+    bfs = BFS.BFS(graph, limit)
+    print(f"The answer with limit {limit} is: {bfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n")
 
 
 if __name__ == "__main__":

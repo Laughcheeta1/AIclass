@@ -4,8 +4,10 @@ class DFS:
         self._max_colors = max_colors
 
         self._colors = {color: 0 for color in graph}
+        self._nodes_visited = 0
 
     def color(self, node):
+        self._nodes_visited += 1
         # Try to get the first available color
         color = self.pick_color(node)
 
@@ -52,11 +54,7 @@ class DFS:
 
         The validation will take exactly n iterations, while the flag will change n or more times.
         """
-        self.color(sorted(list(self._graph.keys()))[0])
+        return self._colors if self.color(min(self._graph.keys())) else None
 
-        valid = self.valid()
-        return self._colors if valid else None
-
-    def valid(self):
-        # Check if any of the values is equal to 0
-        return not any(value == 0 for value in self._colors.values())
+    def get_nodes_visited(self):
+        return self._nodes_visited
