@@ -1,11 +1,9 @@
-class BFS:
+class BestFirst:
     def __init__(self, graph: dict[str, list[str]], max_colors = float("inf")):
         self._graph = graph
         self._max_color = max_colors
 
         self._colors = {node: 0 for node in self._graph}
-        self._queue = [min(graph.keys())]  # Start only with the first node (alphabetically)
-
         self._nodes_visited = 0
 
     def _color(self, node):
@@ -18,14 +16,12 @@ class BFS:
 
         self._colors[node] = color
 
-        # After we have coloured the current node, we have to add the neighbours to the queue
-        self._queue.extend(self._uncolored_nodes(node))
-
-        if len(self._queue) == 0:  # There is no more nodes that need to be coloured, then we have been successful
-            return True
+        next_node = self._get_next_node()
+        if not next_node:
+            return True  # There is no more nodes to color
 
         # Colour the next node in the list
-        result = self._color(self._queue.pop(0))
+        result = self._color(next_node)
 
         if not result:  # If the result was unsuccessful, that means, we
             # have not found a valid color for the next node given the current state
@@ -42,13 +38,19 @@ class BFS:
 
         return i
 
-    # Return a sorted array of the uncolored neighbours of a node
-    def _uncolored_nodes(self, node: str):
-        return sorted([neighbour for neighbour in self._graph[node] if self._colors[neighbour] == 0 and neighbour not in self._queue])
+    def _get_next_node(self):
+        try:
+            return max((node for node in self._graph if self._colors[node] == 0), key=self._count_uncolored_neighbours)
+
+        except ValueError as e:
+            return None
+
+    def _count_uncolored_neighbours(self, node):
+        return len(list(neighbour for neighbour in self._graph[node] if self._colors[neighbour] == 0))
 
     def get_answer(self):
         # If coloring has been successful, then return the answer, else there is no answer
-        return self._colors if self._color(self._queue.pop(0)) else None
+        return self._colors if self._color(self._get_next_node()) else None
 
     def get_nodes_visited(self):
         return self._nodes_visited

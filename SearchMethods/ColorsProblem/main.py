@@ -1,4 +1,4 @@
-import DFS, BFS
+import DFS, BFS, BestFirst
 
 def main():
     graph = {
@@ -29,7 +29,14 @@ def main():
     print(f"The answer without limit is: {bfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n")
 
     bfs = BFS.BFS(graph, limit)
-    print(f"The answer with limit {limit} is: {bfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n")
+    print(f"The answer with limit {limit} is: {bfs.get_answer()}\nThe steps it took is: {dfs.get_nodes_visited()}\n\n")
+
+    print("Using BestFirst:")
+    best_f = BestFirst.BestFirst(graph)
+    print(f"The answer without limit is: {best_f.get_answer()}\nThe steps it took is: {best_f.get_nodes_visited()}\n")
+
+    best_f = BestFirst.BestFirst(graph, limit)
+    print(f"The answer with limit {limit} is: {best_f.get_answer()}\nThe steps it took is: {best_f.get_nodes_visited()}\n")
 
 
 if __name__ == "__main__":
