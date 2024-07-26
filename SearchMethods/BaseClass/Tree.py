@@ -70,7 +70,7 @@ class Tree:
     def cost_uniform(self, endState):
         self.reinitRoot()
         pq = queue.PriorityQueue()
-        pq.put((self.root.cost(), self.root))
+        pq.put((self.root.cost, self.root))
         while not pq.empty():
             node = pq.get()[1]
             children = node.getchildrens()
@@ -78,7 +78,7 @@ class Tree:
                 if child is not None:
                     newChild = node.add_child(value=node.value + '-' + str(i),
                                               state=child, operator=i)
-                    pq.put((newChild.cost(), newChild))
+                    pq.put((newChild.cost, newChild))
                     if endState == child:
                         return newChild
 
@@ -139,7 +139,7 @@ class Tree:
                                fillcolor=color)
                 graph.add_node(c)
                 graph.add_edge(pydot.Edge(rootGraph, c,
-                                          label=str(child.operator) + '(' + str(child.cost()) + ')'))
+                                          label=str(child.operator) + '(' + str(child.cost) + ')'))
                 graph = self.drawTreeRec(child, c, graph, i, topPath, path)  # recursive call
             return graph
         else:
